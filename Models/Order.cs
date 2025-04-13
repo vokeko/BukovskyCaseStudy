@@ -1,4 +1,4 @@
-﻿namespace BukovskyCaseStudy
+﻿namespace BukovskyCaseStudy.Models
 {
     public class Order
     {
@@ -8,7 +8,7 @@
         public List<OrderItem> OrderItems { get; set; }
         public Order()
         {
-            this.OrderItems = [];
+            OrderItems = [];
         }
     }
 }

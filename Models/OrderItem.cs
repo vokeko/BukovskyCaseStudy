@@ -1,4 +1,4 @@
-﻿namespace BukovskyCaseStudy
+﻿namespace BukovskyCaseStudy.Models
 {
     public class OrderItem
     {

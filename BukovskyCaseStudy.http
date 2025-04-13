@@ -1,6 +1,5 @@
 @BukovskyCaseStudy_HostAddress = http://localhost:5011
 
-GET {{BukovskyCaseStudy_HostAddress}}/weatherforecast/
+GET {{BukovskyCaseStudy_HostAddress}}/order/
 Accept: application/json
-
 ###
