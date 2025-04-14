@@ -1,5 +1,5 @@
 @BukovskyCaseStudy_HostAddress = http://localhost:5011
 
-GET {{BukovskyCaseStudy_HostAddress}}/order/
+GET {{BukovskyCaseStudy_HostAddress}}/api/Orders
 Accept: application/json
 ###
