@@ -19,10 +19,10 @@ namespace BukovskyCaseStudy.Controllers
         }
 
         [Route("")]
-        [HttpGet(Name = "GetOrderList")] 
-        public List<Models.Order> GetOrderList()
+        [HttpGet(Name = "GetOrderList")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrderList()
         {
-            return new List<Models.Order>();
+            return await _dbContext.Orders.ToListAsync();
         }
 
         [Route("")]
