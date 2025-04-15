@@ -3,3 +3,31 @@
 GET {{BukovskyCaseStudy_HostAddress}}/api/Orders
 Accept: application/json
 ###
+
+POST {{BukovskyCaseStudy_HostAddress}}/api/Orders
+Accept: application/json
+Content-Type: application/json
+{
+        "Id" : "45b341c9-2ec6-4408-ad7e-d77de39c0f35",
+        "ClientName" : "Jan Novák",
+        "Status" : 0,
+        "OrderItems": [
+        {
+            "Id": 1,
+            "ItemName": "Kávovar Delonghi",
+            "Price": 2305.95,
+            "Quantity": 1
+        },
+        {
+            "Id": 2,
+            "ItemName": "Mango",
+            "Price": 35.0,
+            "Quantity": 2
+        }
+    ]
+}
+###
+
+PATCH {{BukovskyCaseStudy_HostAddress}}/api/Orders/45b341c9-2ec6-4408-ad7e-d77de39c0f35?isPaid=true
+Accept: application/json
+###
