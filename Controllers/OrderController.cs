@@ -33,7 +33,37 @@ namespace BukovskyCaseStudy.Controllers
 
         [Route("{id:guid}")]
         [HttpPatch(Name = "ProcessOrder")]
-        public void ProcessOrder(bool isPaid)
+        public async Task<IActionResult> ProcessOrder([FromRoute]Guid id, [FromQuery] bool isPaid)
+        {
+            var order = GetOrderById(id);
+            if (order == null)
+                return BadRequest();
+            if (order.Status == OrderStatus.Accepted || order.Status == OrderStatus.Cancelled)
+                return Forbid();
+
+            if (isPaid)
+                order.Status = OrderStatus.Accepted;
+            else
+                order.Status = OrderStatus.Cancelled;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(order);
+        }
         private Order? GetOrderById(Guid id)
         {
             return _dbContext.Orders.SingleOrDefault(o => o.Id == id);
