@@ -27,8 +27,16 @@ namespace BukovskyCaseStudy.Controllers
 
         [Route("")]
         [HttpPost(Name = "CreateOrder")]
-        public void CreateOrder()
+        public async Task<ActionResult<Order>> CreateOrder([FromBody]Order order)
         {
+            order.DateCreated = DateTime.UtcNow;
+            _dbContext.Orders.Add(order);
+            if (order.OrderItems != null && order.OrderItems.Any())
+                _dbContext.OrderItems.AddRange(order.OrderItems.Select(i => { i.OrderId = order.Id; return i; }).ToList());
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(order);
         }
 
         [Route("{id:guid}")]
