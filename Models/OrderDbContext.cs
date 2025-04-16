@@ -3,13 +3,8 @@
 namespace BukovskyCaseStudy.Models
 {
 
-    public class OrderDbContext : DbContext
+    public class OrderDbContext(DbContextOptions<OrderDbContext> options) : DbContext(options)
     {
-        public OrderDbContext(DbContextOptions<OrderDbContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>()
