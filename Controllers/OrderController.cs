@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BukovskyCaseStudy.Controllers
 {
     [ApiController]
-    [Route("api/Orders")]
+    [Route("api/orders")]
     public class OrderController : ControllerBase
     {
 
@@ -27,11 +27,12 @@ namespace BukovskyCaseStudy.Controllers
 
         [Route("")]
         [HttpPost(Name = "CreateOrder")]
-        public async Task<ActionResult<Order>> CreateOrder([FromBody]Order order)
+        public async Task<ActionResult<Order>> CreateOrder([FromBody] Order order)
         {
             order.DateCreated = DateTime.UtcNow;
             _dbContext.Orders.Add(order);
-            if (order.OrderItems != null && order.OrderItems.Any())
+
+            if (order.OrderItems.Any())
                 _dbContext.OrderItems.AddRange(order.OrderItems.Select(i => { i.OrderId = order.Id; return i; }).ToList());
 
             await _dbContext.SaveChangesAsync();
@@ -41,18 +42,17 @@ namespace BukovskyCaseStudy.Controllers
 
         [Route("{id:guid}")]
         [HttpPatch(Name = "ProcessOrder")]
-        public async Task<IActionResult> ProcessOrder([FromRoute]Guid id, [FromQuery] bool isPaid)
+        public async Task<IActionResult> ProcessOrder([FromRoute] Guid id, [FromQuery] bool isPaid)
         {
             var order = GetOrderById(id);
+
             if (order == null)
                 return BadRequest();
+
             if (order.Status == OrderStatus.Accepted || order.Status == OrderStatus.Cancelled)
                 return Forbid();
 
-            if (isPaid)
-                order.Status = OrderStatus.Accepted;
-            else
-                order.Status = OrderStatus.Cancelled;
+            order.Status = isPaid ? OrderStatus.Accepted : OrderStatus.Cancelled;
 
             try
             {
@@ -64,10 +64,7 @@ namespace BukovskyCaseStudy.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return Ok(order);
