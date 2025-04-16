@@ -1,8 +1,6 @@
-﻿using BukovskyCaseStudy.Data;
-using BukovskyCaseStudy.Models;
+﻿using BukovskyCaseStudy.Models;
 using BukovskyCaseStudy.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace BukovskyCaseStudy.Controllers
