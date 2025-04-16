@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BukovskyCaseStudy.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BukovskyCaseStudy.Models
+namespace BukovskyCaseStudy.Data
 {
 
     public class OrderDbContext(DbContextOptions<OrderDbContext> options) : DbContext(options)

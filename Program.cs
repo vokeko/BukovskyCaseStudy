@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BukovskyCaseStudy.Models;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using System.Runtime.CompilerServices;
+using BukovskyCaseStudy.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;

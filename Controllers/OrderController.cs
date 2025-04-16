@@ -1,4 +1,5 @@
-﻿using BukovskyCaseStudy.Models;
+﻿using BukovskyCaseStudy.Data;
+using BukovskyCaseStudy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
