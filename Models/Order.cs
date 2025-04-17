@@ -9,13 +9,6 @@ namespace BukovskyCaseStudy.Models
         public string? ClientName { get; set; }
         public DateTime DateCreated { get; set; }
         public List<OrderItem> OrderItems { get; set; } = [];
-        public OrderStatus Status { get; set; } = OrderStatus.New;
-    }
-
-    public enum OrderStatus
-    {
-        New,
-        Accepted,
-        Cancelled,
+        public Enums.OrderStatus Status { get; set; } = Enums.OrderStatus.New;
     }
 }

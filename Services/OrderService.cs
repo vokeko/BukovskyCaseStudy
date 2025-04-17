@@ -39,13 +39,13 @@ namespace BukovskyCaseStudy.Services
 
             if (order == null) return null;
 
-            if (order.Status == OrderStatus.Accepted || order.Status == OrderStatus.Cancelled)
+            if (order.Status == Enums.OrderStatus.Accepted || order.Status == Enums.OrderStatus.Cancelled)
             {
                 _logger.LogWarning("Order with ID: {OrderId} is already in a final state: {Status}.", id, order.Status);
                 throw new InvalidOperationException("Order is in a final state.");
             }
 
-            order.Status = isPaid ? OrderStatus.Accepted : OrderStatus.Cancelled;
+            order.Status = isPaid ? Enums.OrderStatus.Accepted : Enums.OrderStatus.Cancelled;
             await _dbContext.SaveChangesAsync();
             _logger.LogInformation("Order with ID: {OrderId} processed successfully. New status: {Status}.", id, order.Status);
             return order;
