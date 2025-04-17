@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using BukovskyCaseStudy.Data;
+using BukovskyCaseStudy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -8,6 +9,7 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
         options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 

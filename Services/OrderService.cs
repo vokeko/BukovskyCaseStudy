@@ -4,14 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BukovskyCaseStudy.Services
 {
-    public interface IOrderService
-    {
-        Task<IEnumerable<Order>> GetOrderListAsync();
-        Task<Order> CreateOrderAsync(Order order);
-        Task<Order?> ProcessOrderAsync(Guid id, bool isPaid);
-    }
-
-    public class OrderService(OrderDbContext dbContext, ILogger<OrderService> logger) : IOrderService
+    public class OrderService(OrderDbContext dbContext, ILogger<OrderService> logger)
     {
         private readonly OrderDbContext _dbContext = dbContext;
         private readonly ILogger<OrderService> _logger = logger;

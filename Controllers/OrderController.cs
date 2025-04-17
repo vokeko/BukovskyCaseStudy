@@ -7,9 +7,9 @@ namespace BukovskyCaseStudy.Controllers
 {
     [ApiController]
     [Route("api/orders")]
-    public class OrderController(IOrderService orderService) : ControllerBase
+    public class OrderController(OrderService orderService) : ControllerBase
     {
-        private readonly IOrderService _orderService = orderService;
+        private readonly OrderService _orderService = orderService;
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrderList()
