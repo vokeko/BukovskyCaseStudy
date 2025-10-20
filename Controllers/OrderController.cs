@@ -1,84 +1,43 @@
 ﻿using BukovskyCaseStudy.Models;
+using BukovskyCaseStudy.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace BukovskyCaseStudy.Controllers
 {
     [ApiController]
-    [Route("api/Orders")]
-    public class OrderController : ControllerBase
+    [Route("api/orders")]
+    public class OrderController(OrderService orderService) : ControllerBase
     {
+        private readonly OrderService _orderService = orderService;
 
-        private readonly OrderDbContext _dbContext;
-        private readonly ILogger<OrderController> _logger;
-
-        public OrderController(ILogger<OrderController> logger, OrderDbContext dbContext)
-        {
-            _logger = logger;
-            _dbContext = dbContext;
-        }
-
-        [Route("")]
-        [HttpGet(Name = "GetOrderList")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrderList()
         {
-            return await _dbContext.Orders.ToListAsync();
+            var orders = await _orderService.GetOrderListAsync();
+            return Ok(orders);
         }
 
-        [Route("")]
-        [HttpPost(Name = "CreateOrder")]
-        public async Task<ActionResult<Order>> CreateOrder([FromBody]Order order)
+        [HttpPost]
+        public async Task<ActionResult<Order>> CreateOrder([FromBody] Order order)
         {
-            order.DateCreated = DateTime.UtcNow;
-            _dbContext.Orders.Add(order);
-            if (order.OrderItems != null && order.OrderItems.Count > 0)
-                _dbContext.OrderItems.AddRange(order.OrderItems.Select(i => { i.OrderId = order.Id; return i; }).ToList());
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(order);
+            var createdOrder = await _orderService.CreateOrderAsync(order);
+            return Ok(createdOrder);
         }
 
-        [Route("{id:guid}")]
-        [HttpPatch(Name = "ProcessOrder")]
-        public async Task<IActionResult> ProcessOrder([FromRoute]Guid id, [FromQuery] bool isPaid)
+        [HttpPatch("{id:guid}")]
+        public async Task<IActionResult> ProcessOrder([Required] Guid id, [FromQuery] bool isPaid)
         {
-            var order = GetOrderById(id);
-            if (order == null)
-                return BadRequest();
-            if (order.Status == OrderStatus.Accepted || order.Status == OrderStatus.Cancelled)
-                return Forbid();
-
-            if (isPaid)
-                order.Status = OrderStatus.Accepted;
-            else
-                order.Status = OrderStatus.Cancelled;
-
             try
             {
-                await _dbContext.SaveChangesAsync();
+                var processedOrder = await _orderService.ProcessOrderAsync(id, isPaid);
+                if (processedOrder == null) return NotFound();
+                return Ok(processedOrder);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (InvalidOperationException ex)
             {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Forbid(ex.Message);
             }
-
-            return Ok(order);
-        }
-        private Order? GetOrderById(Guid id)
-        {
-            return _dbContext.Orders.SingleOrDefault(o => o.Id == id);
-        }
-        private bool OrderExists(Guid id)
-        {
-            return _dbContext.Orders.Any(o => o.Id == id);
         }
     }
 }

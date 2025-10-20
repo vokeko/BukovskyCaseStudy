@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using BukovskyCaseStudy.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BukovskyCaseStudy.Models
+namespace BukovskyCaseStudy.Data
 {
 
-    public class OrderDbContext : DbContext
+    public class OrderDbContext(DbContextOptions<OrderDbContext> options) : DbContext(options)
     {
-        public OrderDbContext(DbContextOptions<OrderDbContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>()

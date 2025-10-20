@@ -1,20 +1,20 @@
-@BukovskyCaseStudy_HostAddress = http://localhost:5011
+Ôªø@BukovskyCaseStudy_HostAddress = http://localhost:5011
 
-GET {{BukovskyCaseStudy_HostAddress}}/api/Orders
+GET {{BukovskyCaseStudy_HostAddress}}/api/orders
 Accept: application/json
 ###
 
-POST {{BukovskyCaseStudy_HostAddress}}/api/Orders
+POST {{BukovskyCaseStudy_HostAddress}}/api/orders
 Accept: application/json
 Content-Type: application/json
 {
         "Id" : "45b341c9-2ec6-4408-ad7e-d77de39c0f35",
-        "ClientName" : "Jan Nov·k",
+        "ClientName" : "Jan Nov√°k",
         "Status" : 0,
         "OrderItems": [
         {
             "Id": 1,
-            "ItemName": "K·vovar Delonghi",
+            "ItemName": "K√°vovar Delonghi",
             "Price": 2305.95,
             "Quantity": 1
         },
@@ -28,6 +28,6 @@ Content-Type: application/json
 }
 ###
 
-PATCH {{BukovskyCaseStudy_HostAddress}}/api/Orders/45b341c9-2ec6-4408-ad7e-d77de39c0f35?isPaid=true
+PATCH {{BukovskyCaseStudy_HostAddress}}/api/orders/45b341c9-2ec6-4408-ad7e-d77de39c0f35?isPaid=true
 Accept: application/json
 ###
