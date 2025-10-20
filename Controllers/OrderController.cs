@@ -31,7 +31,7 @@ namespace BukovskyCaseStudy.Controllers
         {
             order.DateCreated = DateTime.UtcNow;
             _dbContext.Orders.Add(order);
-            if (order.OrderItems != null && order.OrderItems.Any())
+            if (order.OrderItems != null && order.OrderItems.Count > 0)
                 _dbContext.OrderItems.AddRange(order.OrderItems.Select(i => { i.OrderId = order.Id; return i; }).ToList());
 
             await _dbContext.SaveChangesAsync();
